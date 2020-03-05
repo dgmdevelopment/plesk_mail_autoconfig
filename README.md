@@ -1,4 +1,5 @@
 # plesk_mail_autoconfig
+This code is not recommended for live production as I am still testing it. Use at your own risk. 
 
 This script for Plesk servers allows you to deploy automatic mail client configuration for:
 
