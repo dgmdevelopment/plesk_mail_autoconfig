@@ -1,0 +1,48 @@
+<?php if ($_REQUEST['email'] != "" && $_REQUEST['nom'] != "" && filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)): ?>
+  <?php
+  header('Content-Type: application/x-apple-aspen-config');
+  header("Content-Disposition: attachment; filename=\"".$_REQUEST['email'].".mobileconfig\"");
+  $conf = file_get_contents('apple.mobileconfig');
+  $conf = str_replace('%email%', $_REQUEST['email'], $conf);
+  $conf = str_replace('%full_name%', $_REQUEST['nom'], $conf);
+  function guidv4()
+  {
+      if (function_exists('com_create_guid') === true)
+          return trim(com_create_guid(), '{}');
+
+      $data = openssl_random_pseudo_bytes(16);
+      $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
+      $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
+      return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+  }
+  $firstid = guidv4();
+  $secondid = guidv4();
+  $conf = str_replace('%first_uuid%', $firstid, $conf);
+  $conf = str_replace('%second_uuid%', $secondid, $conf);
+  $host_name = gethostname();
+  $conf = str_replace('%hostname%', $host_name, $conf);
+  print $conf;
+  ?>
+<?php else: ?>
+  <html>
+  <head>
+    <title>Auto-configuration mail pour Apple</title>
+    <meta name="viewport" content="width=device-width; initial-scale=1; user-scalable=no" />
+  </head>
+  <body style="font: 100% Verdana;">
+    <form method="post" action="apple.xml">
+<?php
+$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+switch ($lang){
+    case "en":
+        include("apple_en.html");//include EN page
+        break;
+    default:
+        include("apple_en.html");//include EN in all other cases of different lang detection
+        break;
+}
+?>
+    </form>
+  </body>
+</html>
+<?php endif ?>
