@@ -185,19 +185,19 @@ sed -i -e "s/HOSTNAME/${hostname}/g" "${autoconfigpathfile}"
 sed -i -e "s/COMPANYURL/${companyurl}/g" "${autoconfigpathfile}"
 sed -i -e "s@DOCURL@${docurl}@g" "${autoconfigpathfile}"
 
-# DNS for autoconfig
-fn_logecho "[ INFO ] Correcting default DNS zone for Thunderbird autoconfig: adding cname autoconfig to ${hostname}"
-echo ""
-sleep 1
-/usr/local/psa/bin/server_dns --add -cname autoconfig -canonical "${hostname}"
+# DNS for autoconfig - Disabled since I'm not using DNS on the server. 
+#fn_logecho "[ INFO ] Correcting default DNS zone for Thunderbird autoconfig: adding cname autoconfig to ${hostname}"
+#echo ""
+#sleep 1
+#/usr/local/psa/bin/server_dns --add -cname autoconfig -canonical "${hostname}"
 
-fn_logecho "[ ... ] Adding DNS entry for every website for Thunderbird autoconfig"
-echo ""
-sleep 1
-for i in `mysql -uadmin -p\`cat /etc/psa/.psa.shadow\` psa -Ns -e "select name from domains"`; do 
-	/usr/local/psa/bin/dns --add "$i" -cname autoconfig -canonical "${hostname}"
-	fn_logecho "Adding cname: autoconfig.$i - ${hostname}"
-done
+#fn_logecho "[ ... ] Adding DNS entry for every website for Thunderbird autoconfig"
+#echo ""
+#sleep 1
+#for i in `mysql -uadmin -p\`cat /etc/psa/.psa.shadow\` psa -Ns -e "select name from domains"`; do 
+#	/usr/local/psa/bin/dns --add "$i" -cname autoconfig -canonical "${hostname}"
+#	fn_logecho "Adding cname: autoconfig.$i - ${hostname}"
+#done
 
 ## Outlook autodiscover
 echo ""
