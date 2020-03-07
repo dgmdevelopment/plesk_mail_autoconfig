@@ -18,8 +18,8 @@ gitplatform="github"
 # When forking this repo, you can set your own git info
 gitlaburl=""
 githuburl="https://raw.githubusercontent.com"
-gituser="pub"
-gitrepo="Plesk_MailAutoconfig"
+gituser="dgmdevelopment"
+gitrepo="plesk_mail_autoconfig"
 gitbranch="master"
 
 ## Edit with care or don't
